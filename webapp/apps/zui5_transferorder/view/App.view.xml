@@ -1,0 +1,80 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
+	controllerName="zui5_orders.apps.zui5_transferorder.controller.App" xmlns:html="http://www.w3.org/1999/xhtml">
+	<App>
+		<pages>
+			<Page title="{i18n>title}" showNavButton="true" navButtonPress="onNavBack">
+				<content>
+					<ScrollContainer horizontal="false" vertical="false" id="scr">
+						<Table id="oTableItemsId" visible="true" showNoData="true" mode="None" itemPress="onItemPress" items="{mTableTraslados>/}">
+							<!--  growing="true" growingScrollToLoad="true" -->
+							<columns>
+								<Column hAlign="Center" vAlign="Middle" width="15%">
+									<Label text="{i18n>numTras}"/>
+								</Column>
+								<Column minScreenWidth="tablet" demandPopin="true" hAlign="Center" vAlign="Middle" width="12%">
+									<Label text="{i18n>fechaPet}"/>
+								</Column>
+									<Column minScreenWidth="tablet" demandPopin="true" hAlign="Center" vAlign="Middle" width="12%">
+									<Label text="{i18n>art}"/>
+								</Column>
+								<Column minScreenWidth="tablet" demandPopin="true" hAlign="Center" vAlign="Middle" width="12%">
+									<Label text="{i18n>codEan}"/>
+								</Column>
+									<Column minScreenWidth="tablet" demandPopin="true" hAlign="Center" vAlign="Middle" width="15%">
+									<Label text="{i18n>textArtMob}"/>
+								</Column>
+									<Column minScreenWidth="tablet" demandPopin="true" hAlign="Center" vAlign="Middle" width="12%">
+									<Label text="{i18n>cant}"/>
+								</Column>
+									<Column minScreenWidth="tablet" demandPopin="true" hAlign="Center" vAlign="Middle" width="10%">
+									<Label text="{i18n>um}"/>
+								</Column>
+								<Column minScreenWidth="tablet" demandPopin="true" hAlign="Center" vAlign="Middle" width="12%">
+									<Label text="{i18n>centroSol}"/>
+								</Column>
+								<Column minScreenWidth="tablet" demandPopin="true" hAlign="Center" vAlign="Middle" width="9%">
+									<Label text="{i18n>aceptar}"/>
+								</Column>
+								<Column minScreenWidth="tablet" demandPopin="true" hAlign="Center" vAlign="Middle" width="9%">
+									<Label text="{i18n>rechazar}"/>
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem >
+									<cells>
+										<ObjectIdentifier title="{mTableTraslados>Ebeln}"/>
+										<Text text="{path: 'mTableTraslados>Aedat', formatter: '.formatter.formatDate'}"/>
+										<Text text="{mTableTraslados>Matnr}"/>
+										<Text text="{mTableTraslados>Ean11}"/>
+										<Text text="{mTableTraslados>Txz01}"/>
+										<Text text="{mTableTraslados>Menge}"/>
+										<Text text="{mTableTraslados>Meins}"/>
+										<Text text="{mTableTraslados>Reswk}"/>
+										<CheckBox selected="{mTableTraslados>Acepta}" select="onSelectCheckB" editable="true">
+											<customData>
+												<core:CustomData key="Acepta" value="Acepta"/>
+												<core:CustomData key="ValorNum" value="{Numop}"/>
+											</customData>
+										</CheckBox>
+										<CheckBox selected="{mTableTraslados>Rechaz}" select="onSelectCheckB" editable="true">
+											<customData>
+												<core:CustomData key="Rechaz" value="Rechaz"/>
+												<core:CustomData key="ValorNum" value="{Numop}"/>
+											</customData>
+										</CheckBox>
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</ScrollContainer>
+				</content>
+				<footer>
+					<OverflowToolbar id="otbFooter">
+						<ToolbarSpacer/>
+						<Button icon="sap-icon://accept" text="{i18n>enviar}" type="Transparent" press="onConfirmar" tooltip="{i18n>enviar}"/>
+					</OverflowToolbar>
+				</footer>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>

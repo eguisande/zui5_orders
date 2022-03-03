@@ -1,0 +1,27 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="zui5_orders.controller.Login"
+	xmlns:html="http://www.w3.org/1999/xhtml" 	height="100%" width="100%" >
+		<App>
+		<pages>
+			<Page class="login_background" showHeader="false">
+				<content>
+					<HBox height="100%" width="100%" alignContent="Center" alignItems="Center" justifyContent="Center">
+						<HBox height="100%" width="90%" alignContent="Center" alignItems="Center" justifyContent="Center">
+							<VBox id="loginBox" class="login_box" busyIndicatorDelay="0" alignContent="Center" alignItems="Stretch" justifyContent="Center">
+								<Image class="loginImage" src="images/loginLogo.png" densityAware="true"/>
+								<Input id="userInput" class="loginMargins" value="{path: 'login>/user'}" valueStateText="{path: 'i18n>userInputError'}"
+									placeholder="{path: 'i18n>userPlaceholder'}" submit="onUserInputSubmit" liveChange="onClearFieldState"/>
+								<Input id="passInput" class="loginMargins" type="Password" value="{path: 'login>/pass'}" valueStateText="{path: 'i18n>passInputError'}"
+									placeholder="{path: 'i18n>passPlaceholder'}" submit="onPassInputSubmit" liveChange="onClearFieldState"/>
+								<Button id="loginButton" class="loginMargins" text="{path: 'i18n>loginButton'}" press="onLogin"/>
+								<HBox class="loginMargins" alignContent="Center" alignItems="Stretch" justifyContent="End">
+									<Label class="loginVersion loginEnvironment" text="{i18n>environmentERD} - " visible="{path: 'i18n>environmentERD', formatter: '.formatter.displayLoginEnvironment'}"/>
+									<Label class="loginVersion" text="{i18n>appVersion}"/>
+								</HBox>
+							</VBox>
+						</HBox>
+					</HBox>
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>

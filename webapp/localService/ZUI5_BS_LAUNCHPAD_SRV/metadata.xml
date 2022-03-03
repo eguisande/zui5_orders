@@ -1,0 +1,87 @@
+<edmx:Edmx
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+    xmlns:sap="http://www.sap.com/Protocols/SAPData" Version="1.0">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="ZUI5_BS_LAUNCHPAD_SRV" xml:lang="es" sap:schema-version="1">
+            <EntityType Name="Stores" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Werks"/>
+                </Key>
+                <Property Name="NavId" Type="Edm.String" Nullable="false" MaxLength="1" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Werks" Type="Edm.String" Nullable="false" MaxLength="4" sap:label="Centro" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Name1" Type="Edm.String" Nullable="false" MaxLength="30" sap:label="Nombre 1" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Default" Type="Edm.Boolean" Nullable="false" sap:label="Indicador" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="UserInfo" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="NavId"/>
+                </Key>
+                <Property Name="Rols" Type="ZUI5_BS_LAUNCHPAD_SRV.Rols" Nullable="false"/>
+                <Property Name="SystemInfo" Type="ZUI5_BS_LAUNCHPAD_SRV.SystemInfo" Nullable="false"/>
+                <Property Name="NavId" Type="Edm.String" Nullable="false" MaxLength="1" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Werks" Type="Edm.String" Nullable="false" MaxLength="4" sap:label="Centro" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="IsStoreUser" Type="Edm.Boolean" Nullable="false" sap:label="Es usuario tienda" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="IsStoreManager" Type="Edm.Boolean" Nullable="false" sap:label="Es gerente tienda" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="IsAdministrator" Type="Edm.Boolean" Nullable="false" sap:label="Es administrador" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="Stores" Relationship="ZUI5_BS_LAUNCHPAD_SRV.UserInfoAssociation" FromRole="FromRole_UserInfoAssociation" ToRole="ToRole_UserInfoAssociation"/>
+            </EntityType>
+            <ComplexType Name="Rols">
+                <Property Name="DisplayAI" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación AI (Ajuste de inventario)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DisplayBT" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación BT (Baja tester)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DisplayCA" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación CA (Consulta de artículo)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DisplayCPI" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación CPI" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DisplayDP" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación DP (Impresión diaria)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DisplayED" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación ED (Entrada de directos)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DisplayEM" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación EM (Entrada de mercancías)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DisplayEP" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación EP (EM - Pedido a Central)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DisplayEPC" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación EPC (Entrada pendt. de cofi.)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DisplayET" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación ET (EM - Traslados)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DisplayGT" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación GT (Generación de traslados)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DisplayIT" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación IT (Impresión por tipo)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DisplaySMP" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación SM (Salida de merc. pend.)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DisplayLB" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación LB (Listado en blanco)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DisplayTAF" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación TAF (Ticket a factura)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DisplayNO" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación NO (Avisos)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DisplayPC" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación PC (Pedidos a central)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DisplayPD" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación PD (Pedidos directos)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DisplayPLO" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación PL (Impresión etiquetas)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DisplayPLM" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación PL (Impresión etiquetas)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DisplayPT" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación PT (Petición de traslado)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DisplayPTP" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación PTP" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DisplayRD" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación RD" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DisplayRS" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación RS (Reducción de stock)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DisplaySA" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación SA (Stock Articulos)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DisplaySM" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación SM (Salida de mercancías)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DisplayTA" Type="Edm.Boolean" Nullable="false" sap:label="Aplicación TA (Traslado entre almacenes)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </ComplexType>
+            <ComplexType Name="SystemInfo">
+                <Property Name="Mandt" Type="Edm.String" Nullable="false" MaxLength="3" sap:label="Mandante" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="IsProductive" Type="Edm.Boolean" Nullable="false" sap:label="Bool" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Category" Type="Edm.String" Nullable="false" MaxLength="1" sap:label="Rol" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </ComplexType>
+            <Association Name="UserInfoAssociation" sap:content-version="1">
+                <End Type="ZUI5_BS_LAUNCHPAD_SRV.UserInfo" Multiplicity="1" Role="FromRole_UserInfoAssociation"/>
+                <End Type="ZUI5_BS_LAUNCHPAD_SRV.Stores" Multiplicity="*" Role="ToRole_UserInfoAssociation"/>
+            </Association>
+            <EntityContainer Name="ZUI5_BS_LAUNCHPAD_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json">
+                <EntitySet Name="UserInfoSet" EntityType="ZUI5_BS_LAUNCHPAD_SRV.UserInfo" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="UserRolsSet" EntityType="ZUI5_BS_LAUNCHPAD_SRV.UserInfo" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="StoresSet" EntityType="ZUI5_BS_LAUNCHPAD_SRV.Stores" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <AssociationSet Name="UserRolsAssociationSet" Association="ZUI5_BS_LAUNCHPAD_SRV.UserInfoAssociation" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="UserRolsSet" Role="FromRole_UserInfoAssociation"/>
+                    <End EntitySet="StoresSet" Role="ToRole_UserInfoAssociation"/>
+                </AssociationSet>
+                <AssociationSet Name="UserInfoAssociationSet" Association="ZUI5_BS_LAUNCHPAD_SRV.UserInfoAssociation" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="UserInfoSet" Role="FromRole_UserInfoAssociation"/>
+                    <End EntitySet="StoresSet" Role="ToRole_UserInfoAssociation"/>
+                </AssociationSet>
+            </EntityContainer>
+            <atom:link
+                xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="./sap/ZUI5_BS_LAUNCHPAD_SRV/$metadata"/>
+                <atom:link
+                    xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version" href="./sap/ZUI5_BS_LAUNCHPAD_SRV/$metadata"/>
+                </Schema>
+            </edmx:DataServices>
+        </edmx:Edmx>

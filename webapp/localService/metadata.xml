@@ -1,0 +1,42 @@
+<edmx:Edmx
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+    xmlns:sap="http://www.sap.com/Protocols/SAPData" Version="1.0">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="ZUI5_BS_TRASL_A_CENTRAL_SRV" xml:lang="es" sap:schema-version="1">
+            <EntityType Name="Traslados" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Ebeln"/>
+                </Key>
+                <Property Name="Ebeln" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="Doc.compras" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Aedat" Type="Edm.DateTime" Precision="7" sap:label="Modificado el" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Matnr" Type="Edm.String" Nullable="false" MaxLength="18" sap:label="Artículo" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ean11" Type="Edm.String" Nullable="false" MaxLength="18" sap:label="Código GTIN" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Txz01" Type="Edm.String" Nullable="false" MaxLength="40" sap:label="Txt.brv." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Menge" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:label="Cantidad pedido" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Meins" Type="Edm.String" Nullable="false" MaxLength="3" sap:label="UM de pedido" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="Reswk" Type="Edm.String" Nullable="false" MaxLength="4" sap:label="Ce.suministrad." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Status" Type="Edm.String" Nullable="false" MaxLength="1" sap:label="Carácter 1" sap:creatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Aceptar" Type="Edm.String" Nullable="false" MaxLength="1" sap:label="Carácter 1" sap:creatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Rechazar" Type="Edm.String" Nullable="false" MaxLength="1" sap:label="Carácter 1" sap:creatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="Traslados01" Relationship="ZUI5_BS_TRASL_A_CENTRAL_SRV.trasldos_tralados_assocSet" FromRole="FromRole_trasldos_tralados_assocSet" ToRole="ToRole_trasldos_tralados_assocSet"/>
+            </EntityType>
+            <Association Name="trasldos_tralados_assocSet" sap:content-version="1">
+                <End Type="ZUI5_BS_TRASL_A_CENTRAL_SRV.Traslados" Multiplicity="1" Role="FromRole_trasldos_tralados_assocSet"/>
+                <End Type="ZUI5_BS_TRASL_A_CENTRAL_SRV.Traslados" Multiplicity="1" Role="ToRole_trasldos_tralados_assocSet"/>
+            </Association>
+            <EntityContainer Name="ZUI5_BS_TRASL_A_CENTRAL_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json">
+                <EntitySet Name="TrasladosSet" EntityType="ZUI5_BS_TRASL_A_CENTRAL_SRV.Traslados" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <AssociationSet Name="trasldos_tralados_assocSetSet" Association="ZUI5_BS_TRASL_A_CENTRAL_SRV.trasldos_tralados_assocSet" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="TrasladosSet" Role="FromRole_trasldos_tralados_assocSet"/>
+                    <End EntitySet="TrasladosSet" Role="ToRole_trasldos_tralados_assocSet"/>
+                </AssociationSet>
+            </EntityContainer>
+            <atom:link
+                xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="./sap/ZUI5_BS_TRASL_A_CENTRAL_SRV/$metadata"/>
+                <atom:link
+                    xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version" href="./sap/ZUI5_BS_TRASL_A_CENTRAL_SRV/$metadata"/>
+                </Schema>
+            </edmx:DataServices>
+        </edmx:Edmx>

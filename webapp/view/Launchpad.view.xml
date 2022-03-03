@@ -1,0 +1,35 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="zui5_orders.controller.Launchpad"
+	xmlns:html="http://www.w3.org/1999/xhtml">
+		<App  id="app" width="100%">
+			<Page id="contentLaunch" class="menuBackground">
+				<customHeader>
+					<Bar id="launchpadHeaderBar" class="menuHeaderBackground">
+						<contentLeft>
+							<Image 
+							    id      ="logo" 
+							    src     ="{i18n>launchpadLogo}" 
+							    visible ="{device>/system/desktop}" 
+							    class   ="menuHeaderImage"/>
+						</contentLeft>
+						<contentMiddle>
+							<ActionSelect 
+							    id="werksSelect" 
+							    class="floatRight"
+								items="{path: 'userInfo>/WerksList', sorter: [ {path: 'Default', descending: true}, {path: 'Werks', descending: false} ]}"
+								enabled="{path: 'userInfo>/WerksList', formatter: '.formatter.storeLength' }" 
+								change="onStoreChange">
+								<items>
+									<core:Item 
+									    key="{userInfo>Werks}"
+										text="{parts: [ {path: 'userInfo>Werks'}, {path: 'userInfo>Name1'}, {path: 'userInfo>Default'}], formatter: '.formatter.storeName' }"/>
+								</items>
+							</ActionSelect>
+						</contentMiddle>
+						<contentRight>
+							<Button icon="{i18n>launchpadLogoutIcon}" press="onLogout"/>
+						</contentRight>
+					</Bar>
+				</customHeader>
+			</Page>
+		</App>
+</mvc:View>

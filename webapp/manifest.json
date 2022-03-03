@@ -1,0 +1,165 @@
+{
+	"_version": "1.7.0",
+	"sap.app": {
+		"id": "zui5_orders",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"sourceTemplate": {
+			"id": "servicecatalog.connectivityComponent",
+			"version": "0.0.0"
+		},
+		"dataSources": {
+			"ZUI5_BS_TRASL_A_CENTRAL_SRV": {
+				"uri": "/sap/opu/odata/sap/ZUI5_BS_TRASL_A_CENTRAL_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/metadata.xml"
+				}
+			},
+			"ZUI5_BS_LAUNCHPAD_SRV": {
+				"uri": "/sap/opu/odata/sap/ZUI5_BS_LAUNCHPAD_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/ZUI5_BS_LAUNCHPAD_SRV/metadata.xml"
+				}
+			}
+		}
+	},
+	"sap.ui": {
+		"fullWidth": true,
+		"technology": "UI5",
+		"icons": {
+			"icon": "",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": ["sap_hcb", "sap_belize"]
+	},
+	"sap.ui5": {
+		"resourceRoots": {
+			"zui5_transferorder": "apps/zui5_transferorder"
+		},
+		"rootView": {
+			"viewName": "zui5_orders.view.Launchpad",
+			"type": "XML"
+		},
+		"dependencies": {
+			"minUI5Version": "1.30.0",
+			"libs": {
+				"sap.ui.core": {},
+				"sap.m": {},
+				"sap.ui.layout": {},
+				"sap.ushell": {},
+				"sap.collaboration": {},
+				"sap.ui.comp": {},
+				"sap.uxap": {}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "zui5_orders.i18n.i18n"
+				}
+			},
+			"mDetail": {
+				"type": "sap.ui.model.json.JSONModel",
+				"settings": {},
+				"preload": false
+			},
+			"mTrasCentral": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneTime",
+					"defaultCountMode": "Request"
+				},
+				"dataSource": "ZUI5_BS_TRASL_A_CENTRAL_SRV",
+				"preload": true
+			},
+			"mTableTraslados": {
+				"type": "sap.ui.model.json.JSONModel",
+				"settings": {},
+				"preload": false
+			},
+			"mUser": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneTime",
+					"defaultCountMode": "Request"
+				},
+				"dataSource": "ZUI5_BS_LAUNCHPAD_SRV",
+				"preload": true
+			}
+		},
+		"resources": {
+			"css": [{
+				"uri": "css/style.css"
+			}]
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"async": true,
+				"controlId": "app",
+				"clearControlAgregation": false,
+				"controlAggregation": "pages",
+				"transition": "show"
+			},
+			"routes": [{
+				"name": "launchpad",
+				"pattern": "",
+				"target": ["Launchpad"]
+			}, {
+				"name": "transfer",
+				"pattern": "transfer",
+				"target": ["Transferorder"]
+			}, {
+				"name": "login",
+				"pattern": "",
+				"target": ["Login"]
+			}],
+			"targets": {
+				"Launchpad": {
+					"viewName": "zui5_orders.view.Launchpad",
+					"viewLevel": 1,
+					"clearControlAgregation": true,
+					"transition": "slide"
+				},
+				"Transferorder": {
+					"viewType": "XML",
+					"viewName": "zui5_orders.apps.zui5_transferorder.view.App",
+					"viewId": "OrderTran",
+					"transition": "slide"
+				},
+				"Login": {
+					"viewType": "XML",
+					"viewName": "zui5_orders.view.Login",
+					"viewId": "Login",
+					"transition": "slide"
+				}
+			}
+		}
+	}
+}

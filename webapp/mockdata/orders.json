@@ -1,0 +1,37 @@
+[{
+ 	"name": "Calvin Klein",
+ 	"type": "Perfume",
+ 	"order": "80000012456",
+ 	"date": "10-01-2022",
+ 	"status": "En Proceso",
+ 	"flag": "Indication04",
+ 	"price": 3000,
+ 	"currency": "EUR",
+ 	"store": "Barcelona",
+ 	"condition": "Sin daño",
+ 	"log": [{
+ 		"id": "1000901",
+ 		"status": "Aceptado",
+ 		"progress": "En proceso"
+ 	}, {
+ 		"id": "1000902",
+ 		"status": "Aceptado",
+ 		"progress": "En Camino"
+ 	}]
+ }, {
+ 	"name": "Antonio Banderas",
+ 	"type": "Perfume",
+ 	"order": "80000018411",
+ 	"date": "29-01-2022",
+ 	"status": "Aceptado",
+ 	"flag": "Success",
+ 	"price": 1000,
+ 	"currency": "EUR",
+ 	"store": "Asturias",
+ 	"condition": "Sin daño",
+ 	"log": [{
+ 		"id": "1000801",
+ 		"status": "Rechazado",
+ 		"progress": "Producto dañado"
+ 	}]
+ }]
