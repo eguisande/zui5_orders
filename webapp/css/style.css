@@ -113,9 +113,9 @@
 }
 
 
-/*html.sap-desktop .sapMShellAppWidthLimited .sapMShellCentralBox  {
+html.sap-desktop .sapMShellAppWidthLimited .sapMShellCentralBox  {
     width: 100vw !important;
     margin-left: 0px !important; 
     left: 0px !important;
     background-color: rgba(255,255,255,0.3);
-}*/
+}

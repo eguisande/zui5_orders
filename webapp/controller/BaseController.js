@@ -8,15 +8,14 @@ sap.ui.define([
 	"use strict";
 
 	return Controller.extend("BaseController", {
-
+        component: {},
 		onInit: function() {
-            debugger;
+		    
 		},
 
 		getRouter: function() {
 			return this.getOwnerComponent().getRouter();
 		},
-		
 
 		isTablet: function() {
 			var oModel = this.getView().getModel("device") || this.getOwnerComponent().getModel("device");
@@ -39,6 +38,7 @@ sap.ui.define([
 		},
 
 		onNavBack: function() {
+		    this.clearData();
 			var oHistory, sPreviousHash;
 			oHistory = History.getInstance();
 			sPreviousHash = oHistory.getPreviousHash();
@@ -49,29 +49,32 @@ sap.ui.define([
 			}
 		},
 		
-			getId: function (pParam) {
+		clearData: function(){
+		    this.getOwnerComponent().getModel("mTableTraslados").setData([]);
+		},
+
+		getId: function(pParam) {
 			return this.getView().byId(pParam) || this.getOwnerComponent().byId(pParam);
 		},
 
-
-		getComponent: function () {
+		getComponent: function() {
 			var componentId = sap.ui.core.Component.getOwnerIdFor(this.getView());
 			return sap.ui.component(componentId);
 		},
 
-		getModel: function (sName) {
+		getModel: function(sName) {
 			return this.getView().getModel(sName) || this.getOwnerComponent().getModel(sName);
 		},
 
-		setModel: function (oModel, sName) {
+		setModel: function(oModel, sName) {
 			return this.getView().setModel(oModel, sName);
 		},
 
-		getResourceBundle: function () {
+		getResourceBundle: function() {
 			return this.getOwnerComponent().getModel("i18n").getResourceBundle();
 		},
 
-		showMessageCustomBox: function (pProperties) {
+		showMessageCustomBox: function(pProperties) {
 			var title, icon, actions, oResources;
 
 			if (typeof pProperties !== "object") {
@@ -81,35 +84,35 @@ sap.ui.define([
 			oResources = this.getResourceBundle();
 
 			switch (pProperties.type) {
-			case sap.ui.core.MessageType.Error:
-				icon = MessageBox.Icon.ERROR;
-				title = oResources.getText("MessageTypeError");
-				break;
+				case sap.ui.core.MessageType.Error:
+					icon = MessageBox.Icon.ERROR;
+					title = oResources.getText("MessageTypeError");
+					break;
 
-			case sap.ui.core.MessageType.Information:
-				icon = MessageBox.Icon.INFORMATION;
-				title = oResources.getText("MessageTypeInformation");
-				break;
+				case sap.ui.core.MessageType.Information:
+					icon = MessageBox.Icon.INFORMATION;
+					title = oResources.getText("MessageTypeInformation");
+					break;
 
-			case sap.ui.core.MessageType.None:
-				icon = MessageBox.Icon.NONE;
-				title = oResources.getText("MessageTypeNone");
-				break;
+				case sap.ui.core.MessageType.None:
+					icon = MessageBox.Icon.NONE;
+					title = oResources.getText("MessageTypeNone");
+					break;
 
-			case sap.ui.core.MessageType.Success:
-				icon = MessageBox.Icon.SUCCESS;
-				title = oResources.getText("MessageTypeSuccess");
-				break;
+				case sap.ui.core.MessageType.Success:
+					icon = MessageBox.Icon.SUCCESS;
+					title = oResources.getText("MessageTypeSuccess");
+					break;
 
-			case sap.ui.core.MessageType.Warning:
-				icon = MessageBox.Icon.WARNING;
-				title = oResources.getText("MessageTypeWarning");
-				break;
+				case sap.ui.core.MessageType.Warning:
+					icon = MessageBox.Icon.WARNING;
+					title = oResources.getText("MessageTypeWarning");
+					break;
 
-			default:
-				icon = MessageBox.Icon.QUESTION;
-				title = oResources.getText("MessageTypeQuestion");
-				break;
+				default:
+					icon = MessageBox.Icon.QUESTION;
+					title = oResources.getText("MessageTypeQuestion");
+					break;
 			}
 
 			icon = pProperties.icon || icon;
@@ -128,7 +131,7 @@ sap.ui.define([
 			});
 		},
 
-		parseRequestError: function (pError) {
+		parseRequestError: function(pError) {
 			var text, error, message, details;
 
 			if (typeof pError === "object") {
@@ -158,7 +161,7 @@ sap.ui.define([
 			};
 		},
 
-		_isJSON: function (pStr) {
+		_isJSON: function(pStr) {
 			try {
 				JSON.parse(pStr);
 			} catch (e) {
@@ -168,7 +171,7 @@ sap.ui.define([
 			return true;
 		},
 
-		_setFilter: function (pFilterTable, pKey, pValue1, pValue2, pOperator) {
+		_setFilter: function(pFilterTable, pKey, pValue1, pValue2, pOperator) {
 			pOperator = pOperator || sap.ui.model.FilterOperator.EQ;
 
 			var filter = new sap.ui.model.Filter({
@@ -181,13 +184,13 @@ sap.ui.define([
 			pFilterTable.push(filter);
 		},
 
-		_isHTML: function (pStr) {
+		_isHTML: function(pStr) {
 			var isHTML = RegExp.prototype.test.bind(/(<([^>]+)>)/i);
 
 			return isHTML(pStr);
 		},
 
-		_parseHTML: function (pStr) {
+		_parseHTML: function(pStr) {
 			var oParser = new DOMParser();
 			var htmlDoc = oParser.parseFromString(pStr, "text/html");
 
@@ -197,8 +200,7 @@ sap.ui.define([
 			};
 		},
 
-
-		_getServiceURL: function (pUrl) {
+		_getServiceURL: function(pUrl) {
 			var sServiceUrlText;
 
 			sServiceUrlText = this.getResourceBundle().getText("con");
@@ -210,7 +212,7 @@ sap.ui.define([
 			return sServiceUrlText + pUrl;
 		},
 
-		_getExternalAppsURL: function (pUrl) {
+		_getExternalAppsURL: function(pUrl) {
 			// FGarcia - 28.10.2020 - INI - Se cambia el código para la migración al servidor de GW.
 			/*var sServiceUrlText = this.getResourceBundle().getText("con");
 
@@ -232,7 +234,7 @@ sap.ui.define([
 			return sServiceUrlText + pUrl;
 		},
 
-		getWerks: function () {
+		getWerks: function() {
 			var oModel = this.getModel("userInfo");
 
 			if (oModel) {
@@ -242,15 +244,15 @@ sap.ui.define([
 			}
 		},
 
-		getClient: function () {
+		getClient: function() {
 			return this.getResourceBundle().getText("sap-client");
 		},
 
-		getLanguage: function () {
+		getLanguage: function() {
 			return sap.ui.getCore().getConfiguration().getLanguage().split("-")[1];
 		},
 
-		isProductive: function () {
+		isProductive: function() {
 			var bIsProductive, oModel;
 
 			bIsProductive = false;

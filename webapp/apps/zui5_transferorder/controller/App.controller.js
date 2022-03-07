@@ -2,8 +2,9 @@ sap.ui.define([
 	"zui5_orders/controller/BaseController",
 	"sap/ui/core/routing/History",
 	"sap/ui/model/Filter",
-	"zui5_orders/utils/formatter"
-], function(BaseController, History, Filter, formatter) {
+	"zui5_orders/utils/formatter",
+	"sap/m/MessageBox"
+], function(BaseController, History, Filter, formatter, MessageBox) {
 	"use strict";
 
 	return BaseController.extend("zui5_orders.apps.zui5_transferorder.controller.App", {
@@ -17,6 +18,18 @@ sap.ui.define([
 			debugger;
 			this.setVisibleNavBar();
 			this.getDataService();
+			debugger;
+			this.getRouter().getRoute("transfer").attachPatternMatched(this._onRouteMatched, this);
+
+		},
+
+		_onRouteMatched: function() {
+
+			this.getDataService();
+		},
+
+		onExit: function() {
+            debugger;
 		},
 
 		onAfterRendering: function() {
@@ -24,16 +37,17 @@ sap.ui.define([
 		},
 
 		getDataService: function() {
-		    var oTable = this.getView().byId("oTableItemsId");
-		    oTable.setBusyIndicatorDelay(0);
-		    oTable.setBusy(true);
+			var oTable = this.getView().byId("oTableItemsId");
+			oTable.setBusyIndicatorDelay(0);
+			oTable.setBusy(true);
 			this.getOwnerComponent().getModel("mTrasCentral").read("/TrasladosSet", {
+			    filters: [new Filter("Reswk", "EQ", "5109")],
 				success: function(resp) {
-				    oTable.setBusy(false);
+					oTable.setBusy(false);
 					this.getOwnerComponent().getModel("mTableTraslados").setData(resp.results);
 				}.bind(this),
 				error: function(err) {
-                    oTable.setBusy(false);
+					oTable.setBusy(false);
 				}.bind(this)
 			})
 		},
@@ -115,50 +129,71 @@ sap.ui.define([
 			}
 
 		},
-		
-		onConfirmar: function() {
-		    var oData = this.getView().getModel("mTableTraslados").getData();
-		    oData = this._getDataValues(oData);
-		    
-		    var oPayload = {
-				Items: oData
-			};
-		    
-		    this.getOwnerComponent().getModel("mTrasCentral").create("/TrasladosRespuestaSet", oPayload, {
-				success: function(resp) {
-				    debugger;
-				}.bind(this),
-				error: function(err) {
-                    debugger;
+
+		onConfirmar: async function() {
+			this.getView().setBusy(true);
+			var oData = this.getView().getModel("mTableTraslados").getData();
+			oData = this._getDataValues(oData);
+			var aSuccess = [];
+			var aError = [];
+
+			for (let item of oData) {
+				try {
+					var oResp = await this.createTraslados(item);
+					aSuccess.push(item.Ebeln);
+				} catch (err) {
+					aError.push(item.Ebeln);
 				}
-			})
+			}
+			this.showSuccesData(aSuccess);
+
+			this.getDataService();
+			this.getView().setBusy(false);
+
 		},
-		
-		_getDataValues: function(data){
-		    var aData = [];
-		    for(let item of data){
-		        if(item.Acepta || item.Rechaz) {
-		            if(item.Acepta){
-		                
-		                item.Aceptar = "X"
-		            
-		            }else {
-		                item.Rechazar = "X"
-		            }
-		            
-		            aData.push({
-		                Ebeln: item.Ebeln,
-		                Aceptar: item.Aceptar,
-		                Rechazar: item.Rechazar,
-		                Vbeln: item.Vbeln,
-		                Posnr: item.Posnr,
-		            });
-		        }
-		    }
-		    return aData;
+
+		showSuccesData: function(aData) {
+			var sText = "\n";
+			for (let item of aData) {
+				sText = sText + item + "\n";
+			}
+			MessageBox.success("Se han actualizado las siguientes ordenes: " + sText);
+		},
+
+		createTraslados: function(oData) {
+			var oModel = this.getOwnerComponent().getModel("mTrasCentralR");
+			return new Promise(function(resolve, rejected) {
+				oModel.create("/POHeaderSet", oData, {
+					success: resolve,
+					error: rejected
+				});
+			});
+		},
+
+		_getDataValues: function(data) {
+			var aData = [];
+			for (let item of data) {
+				if (item.Acepta || item.Rechaz) {
+					if (item.Acepta) {
+
+						item.Aceptar = "X"
+
+					} else {
+						item.Rechazar = "X"
+					}
+
+					aData.push({
+						Ebeln: item.Ebeln,
+						Aceptar: item.Aceptar,
+						Rechazar: item.Rechazar,
+						Vbeln: item.Vbeln,
+						Posnr: item.Posnr,
+						Status: ""
+					});
+				}
+			}
+			return aData;
 		}
-		
-		
 
 		/**
 		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered

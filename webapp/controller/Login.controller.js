@@ -1,13 +1,14 @@
 sap.ui.define([
 	"zui5_orders/controller/BaseController",
-	"zui5_orders/model/models"
-], function(BaseController, models) {
+	"zui5_orders/model/models",
+	"zui5_orders/utils/formatter"
+	], function(BaseController, models, formatter) {
 	"use strict";
 
 	return BaseController.extend("zui5_orders.controller.Login", {
+	    formatter: formatter,
 		onInit: function() {
 			BaseController.prototype.onInit.call(this);
-
 			this.setModel(models.createLoginModel(), "login");
 			this.onLoginCache();
 			var oLoginModel = this.getModel("login");
@@ -15,14 +16,15 @@ sap.ui.define([
 			oLoginModel.setProperty("/pass", "");
 		},
 
-		onLoginCache: function () {
+		onLoginCache: function() {
 			var user, pass, oLoginModel;
 			oLoginModel = this.getModel("login");
-			user = "doNotPass";
-			pass = "doNotPass";
+			user = "stratesys1";
+			pass = "Ezeq200as";
+		
 			this.onLog(oLoginModel, user, pass, "X");
 		},
-		
+
 		onLogin: function() {
 			var user, pass, oLoginModel;
 			oLoginModel = this.getModel("login");
@@ -33,11 +35,55 @@ sap.ui.define([
 			}
 		},
 
-		onLog: function(oLoginModel, user, pass, mode) {
+		onLog: async function(oLoginModel, user, pass, mode) {
 			var that = this;
 			var oLoginBox = this.getId("loginBox");
 			oLoginBox.setBusy(true);
 
+		try {
+			var oData = await this.getUser(user, pass);
+
+			var oWerks, oUserInfoModel;
+			// Get User Info model.
+			oUserInfoModel = that.getModel("userInfo");
+			// Clean Login and User Info models.
+			oLoginModel.setData({});
+			oUserInfoModel.setData({});
+			// Set type of user.
+			oUserInfoModel.setProperty("/userName", user);
+			oUserInfoModel.setProperty("/userPass", pass);
+			oUserInfoModel.setProperty("/Rols", oData.Rols);
+			oUserInfoModel.setProperty("/SystemInfo", oData.SystemInfo);
+
+			if (oData.Stores && oData.Stores.results) {
+				oUserInfoModel.setProperty("/WerksList", oData.Stores.results);
+				if (oData.Stores.results.length >= 0) {
+					for (var i = 0; i < oData.Stores.results.length; i++) {
+						if (oData.Stores.results[i].Default === true) {
+							oWerks = oData.Stores.results[i];
+						}
+					}
+					// Set user default store as launchpad's default store.
+					oUserInfoModel.setProperty("/Werks", oWerks.Werks);
+				}
+			}
+			// Initialize the router and nav to launchpad
+			    this.getRouter().initialize();
+		       this.getRouter().navTo("launchpad", null, true);
+		    
+			// Disable busy state.
+			oLoginBox.setBusy(false);
+			this.setModel(null, "oDataAppModel");
+		}catch(err){
+		    oLoginBox.setBusy(false);
+		}
+
+		},
+
+		getUser: function(user, pass) {
+			var data = {
+				Stores: []
+			};
 			var serviceUrlText = this._getServiceURL("/sap/opu/odata/sap/ZUI5_BS_LAUNCHPAD_SRV/");
 
 			var model = new sap.ui.model.odata.v2.ODataModel(
@@ -48,102 +94,16 @@ sap.ui.define([
 						//tokenHandling: true
 				});
 
-			var onMetadataLoadFinished = function(pSuccess, oEvent) {
-				if (!pSuccess) {
-					if (mode === "X") {
-						oLoginBox.setBusy(false);
-						return;
-					}
-
-					// Disable busy state.
-					oLoginBox.setBusy(false);
-
-					var oParsedError = that.parseRequestError(oEvent.getParameter("responseText"));
-					// Show error.
-					if (oParsedError) {
-						that.showMessageCustomBox({
-							message: oParsedError.message,
-							details: oParsedError.details,
-							type: sap.ui.core.MessageType.Error
-						});
-					}
-					return;
-				}
-
-				var data = {
-					Stores: []
-				};
-
-				/*  if (oEvent.mParameters.metadata.mEntityTypes.UserInfoSet == undefined){
-				   oLoginBox.setBusy(false);
-				   return;
-				  }*/
-
+			return new Promise(function(resp, err) {
 				model.create("/UserInfoSet", data, {
-					success: function onSuccess(oData, oResponse) {
+					success: resp,
+					error: err
+				})
+			});
 
-						//jQuery.sap.storage(jQuery.sap.storage.Type.local).put("Offline", "");
-						var oWerks, oUserInfoModel;
-						// Get User Info model.
-						oUserInfoModel = that.getModel("userInfo");
-						// Clean Login and User Info models.
-						oLoginModel.setData({});
-						oUserInfoModel.setData({});
-						// Set type of user.
-						oUserInfoModel.setProperty("/userName", user);
-						oUserInfoModel.setProperty("/userPass", pass);
-						oUserInfoModel.setProperty("/Rols", oData.Rols);
-						oUserInfoModel.setProperty("/SystemInfo", oData.SystemInfo);
-
-						// Set stores' list.
-						if (oData.Stores && oData.Stores.results) {
-							oUserInfoModel.setProperty("/WerksList", oData.Stores.results);
-							if (oData.Stores.results.length >= 0) {
-								for (var i = 0; i < oData.Stores.results.length; i++) {
-									if (oData.Stores.results[i].Default === true) {
-										oWerks = oData.Stores.results[i];
-									}
-								}
-								// Set user default store as launchpad's default store.
-								oUserInfoModel.setProperty("/Werks", oWerks.Werks);
-							}
-						}
-
-						// Initialize the router and nav to launchpad.
-						that.getRouter().initialize();
-						that.getRouter().navTo("launchpad", null, true);
-						// Disable busy state.
-						oLoginBox.setBusy(false);
-						that.setModel(null, "oDataAppModel");
-					},
-					error: function onError(oError) {
-						oLoginBox.setBusy(false);
-						if (mode === "X") {
-
-							return;
-						}
-
-						var oBundle;
-						// Get resources (Texts).
-						oBundle = that.getResourceBundle();
-						// Parse JSON message error.
-						oParsedError = that.parseRequestError(oError);
-						// Show error.
-						that.showMessageCustomBox({
-							message: oParsedError.message || oBundle.getText("loginGenericError"),
-							details: oParsedError.details,
-							type: sap.ui.core.MessageType.Error
-						});
-					}
-				});
-			};
-
-			model.attachMetadataLoaded(onMetadataLoadFinished.bind(this, true));
-			model.attachMetadataFailed(onMetadataLoadFinished.bind(this, false));
-			this.setModel(model, "oDataAppModel");
 		},
-		
-		checkFields: function (pField, pId) {
+
+		checkFields: function(pField, pId) {
 			var valueStateText, oResourceBundle;
 			//Si el campo esta infromado, devolvemos true. Sino está informado, miramos
 			// que se haya infromado el ID de la vista.
@@ -161,18 +121,18 @@ sap.ui.define([
 			}
 		},
 
-		onClearFieldState: function (oEvent) {
+		onClearFieldState: function(oEvent) {
 			oEvent.getSource().setValueState(sap.ui.core.ValueState.None);
 		},
 
-		onUserInputSubmit: function (oEvent) {
+		onUserInputSubmit: function(oEvent) {
 			var input = this.getView().byId("passInput");
 			if (input) {
 				input.focus();
 			}
 		},
 
-		onPassInputSubmit: function (oEvent) {
+		onPassInputSubmit: function(oEvent) {
 			var input = this.getView().byId("loginButton");
 
 			if (input) {
@@ -180,7 +140,7 @@ sap.ui.define([
 			}
 		},
 
-		setInputState: function (pId, pState, pStateText) {
+		setInputState: function(pId, pState, pStateText) {
 			var input = this.getView().byId(pId);
 			if (!input) {
 				return;

@@ -1,5 +1,5 @@
 sap.ui.define([
-	"zui5_orders/controller/BaseController"
+	"sap/ui/core/mvc/Controller"
 ], function(BaseController) {
 	"use strict";
 

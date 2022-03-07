@@ -22,7 +22,7 @@
     {
       "templateId": "servicecatalog.connectivityComponent",
       "templateVersion": "0.0.0",
-      "dateTimeStamp": "Tue, 01 Mar 2022 11:19:57 GMT"
+      "dateTimeStamp": "Fri, 04 Mar 2022 10:10:03 GMT"
     }
   ],
   "build": {
@@ -52,7 +52,7 @@
     "blockPushLevel": "Error"
   },
   "mockpreview": {
-    "mockUri": "/sap/opu/odata/sap/ZUI5_BS_LAUNCHPAD_SRV",
+    "mockUri": "/sap/opu/odata/sap/ZUI5_BS_TRASL_A_CENTRAL_R_SRV",
     "metadataFilePath": "",
     "loadJSONFiles": false,
     "loadCustomRequests": false,

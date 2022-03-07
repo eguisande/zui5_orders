@@ -1,0 +1,58 @@
+<edmx:Edmx
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+    xmlns:sap="http://www.sap.com/Protocols/SAPData" Version="1.0">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="ZUI5_BS_TRASL_A_CENTRAL_R_SRV" xml:lang="es" sap:schema-version="1">
+            <EntityType Name="POHeader" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Vbeln"/>
+                </Key>
+                <Property Name="Status" Type="Edm.String" Nullable="false" MaxLength="1" sap:label="Carácter 1" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Vbeln" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="Doc.comercial" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Aceptar" Type="Edm.String" Nullable="false" MaxLength="1" sap:label="Carácter 1" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Posnr" Type="Edm.String" Nullable="false" MaxLength="6" sap:label="Posición" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ebeln" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="Doc.compras" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Rechazar" Type="Edm.String" Nullable="false" MaxLength="1" sap:label="Carácter 1" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="POHeaderPOItem" Relationship="ZUI5_BS_TRASL_A_CENTRAL_R_SRV.HeaderItem" FromRole="FromRole_HeaderItem" ToRole="ToRole_HeaderItem"/>
+            </EntityType>
+            <EntityType Name="POItem" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Vbeln"/>
+                    <PropertyRef Name="Posnr"/>
+                </Key>
+                <Property Name="Vbeln" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="Doc.comercial" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Posnr" Type="Edm.String" Nullable="false" MaxLength="6" sap:label="Posición" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ebeln" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="Doc.compras" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Status" Type="Edm.String" Nullable="false" MaxLength="1" sap:label="Carácter 1" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Aceptar" Type="Edm.String" Nullable="false" MaxLength="1" sap:label="Carácter 1" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Rechazar" Type="Edm.String" Nullable="false" MaxLength="1" sap:label="Carácter 1" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <Association Name="HeaderItem" sap:content-version="1">
+                <End Type="ZUI5_BS_TRASL_A_CENTRAL_R_SRV.POHeader" Multiplicity="1" Role="FromRole_HeaderItem"/>
+                <End Type="ZUI5_BS_TRASL_A_CENTRAL_R_SRV.POItem" Multiplicity="*" Role="ToRole_HeaderItem"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_HeaderItem">
+                        <PropertyRef Name="Vbeln"/>
+                    </Principal>
+                    <Dependent Role="ToRole_HeaderItem">
+                        <PropertyRef Name="Vbeln"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="ZUI5_BS_TRASL_A_CENTRAL_R_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json">
+                <EntitySet Name="POHeaderSet" EntityType="ZUI5_BS_TRASL_A_CENTRAL_R_SRV.POHeader" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="POItemSet" EntityType="ZUI5_BS_TRASL_A_CENTRAL_R_SRV.POItem" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <AssociationSet Name="HeaderItemSet" Association="ZUI5_BS_TRASL_A_CENTRAL_R_SRV.HeaderItem" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="POHeaderSet" Role="FromRole_HeaderItem"/>
+                    <End EntitySet="POItemSet" Role="ToRole_HeaderItem"/>
+                </AssociationSet>
+            </EntityContainer>
+            <atom:link
+                xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="./sap/ZUI5_BS_TRASL_A_CENTRAL_R_SRV/$metadata"/>
+                <atom:link
+                    xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version" href="./sap/ZUI5_BS_TRASL_A_CENTRAL_R_SRV/$metadata"/>
+                </Schema>
+            </edmx:DataServices>
+        </edmx:Edmx>
